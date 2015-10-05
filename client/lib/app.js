@@ -1,0 +1,1 @@
+angular.module('amquiz',['angular-meteor', 'ui.router', 'ui.bootstrap']);

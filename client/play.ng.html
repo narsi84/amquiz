@@ -1,0 +1,9 @@
+<div>
+	<div ng-if="!available" class="btn btn-primary" ng-click="getQuestion()">Start</div>
+
+	<div ng-if="available">	
+		<question question="question" category="selectedCategory"></question>
+	</div>	
+</div>
+<div class="btn btn-success" ng-click="submit()">Submit</div>
+<a class="btn btn-danger" ui-sref="index">Quit</a>

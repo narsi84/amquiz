@@ -1,0 +1,15 @@
+<form>
+  <label>Name</label>
+  <input ng-model="newQuestion.name">
+  <label>Description</label>
+  <input ng-model="newQuestion.description">
+  <button ng-click="questions.push(newQuestion)">Add</button>
+  <button ng-click="removeAll()">Remove All</button>
+</form>
+<ul>
+  <li ng-repeat="question in questions">
+    <a href="/questions/{{question._id}}">{{question.name}}</a>
+    <p>{{question.description}}</p>
+    <button ng-click="remove(question)">X</button>
+  </li>
+</ul>
