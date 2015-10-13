@@ -1,0 +1,13 @@
+<div ng-show="editable">
+	<textarea maxlength="500" ng-model="data.text">{{data.text}}</textarea>
+</div>
+
+<div ng-hide="editable">
+	{{data.text}}
+</div>
+<div ng-if="editable">
+	Select file: <input type="file" ng-model="picfile" ngf-select name="file" accept="image/*" required="">
+	<button class="btn btn-primary" ng-click="uploadImage(picfile)">Upload</button>
+	<button class="btn btn-danger" ng-click="removeImage()">Remove</button>
+</div>
+<img ng-if="media" ng-src="{{media.url()}}"/>

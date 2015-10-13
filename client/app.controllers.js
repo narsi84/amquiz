@@ -5,6 +5,8 @@
 		.controller('MainController', ['$rootScope', '$scope', '$meteor', function($rootScope, $scope, $meteor){
 			$rootScope.CATEGORIES = CATEGORIES;
 
+			$meteor.subscribe('userData');
+
 			$scope.selectedCategory = '';
 			$scope.selectedQuestion = null;
 
@@ -28,22 +30,29 @@
 		}])
 
 		.controller('PlayCtrl', ['$scope', '$meteor', '$stateParams', function($scope, $meteor, $stateParams){
-			$scope.questions = $meteor.collection(Questions);
+			$scope.questions = $meteor.collection(Questions).subscribe('Questions');
 
-			$scope.available = false;
+			$scope.started = false;
 			$scope.question = null;
 			$scope.selectedCategory = $stateParams.category;
+
+			// Indicates whether we are currently showing the answer, in which case, submit() should be disallowed
+			$scope.isAnswer = false;
 
 			function shuffle (input) {
 			  var array = [];
 			  angular.copy(input, array);
-			  var i = 0, j = 0, temp = null
+			  var i = 0, j = 0, temp = null;
 
 			  for (i = array.length - 1; i > 0; i -= 1) {
-			    j = Math.floor(Math.random() * (i + 1))
-			    temp = array[i]
-			    array[i] = array[j]
-			    array[j] = temp
+			    j = Math.floor(Math.random() * (i + 1));
+			    temp = array[i];
+			    array[i] = array[j];
+			    array[j] = temp;
+
+			    // Reset the selected flag here. This aint the correct place, but saves another iteration later
+			    array[i].selected = false;
+			    array[j].selected = false;
 			  }
 			  return array;
 			}
@@ -52,7 +61,8 @@
 				$meteor.call('getNewQuestion', $scope.selectedCategory)
 					.then(function(data){
 						$scope.question = data;		
-						$scope.available = true;				
+						$scope.started = true;
+						$scope.isAnswer = false;				
 						// Reorder the options
 						if ($scope.question.type === Q_TYPE_MATCH)
 							$scope.question.options = [shuffle($scope.question.options[0]), shuffle($scope.question.options[1])];
@@ -67,6 +77,7 @@
 			$scope.submit = function(){
 				$meteor.call('checkAnswer', $scope.question)
 					.then(function(result){
+						$scope.isAnswer = true
 						console.log('Success: ' + result.isCorrect);
 						$scope.question = result.question;
 						if ($scope.question.type == Q_TYPE_DEFAULT) {
@@ -89,6 +100,8 @@
 		}])
 
 		.controller('ContributeCtrl', ['$rootScope', '$scope', '$meteor', '$stateParams', function($rootScope, $scope, $meteor, $stateParams){
+			$scope.DIFFICULTY = DIFFICULTY;
+
 			$scope.questions = $meteor.collection(Questions);
 			$scope.selectedCategory = $stateParams.category;
 

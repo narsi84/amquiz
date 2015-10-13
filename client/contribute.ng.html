@@ -4,6 +4,10 @@
   <button type="button" class="btn btn-default" ng-click="getNewQuestion('MATCH')">Match the following</button>
 </div>
 
+<div>
+	<select ng-options="difficulty for difficulty in DIFFICULTY" ng-model="question.difficulty"></select>
+</div>
+
 <question new-question question="question" category="selectedCategory"></question>
 <div class="btn btn-success" ng-click="submit()">Submit</div>
 <a class="btn btn-default" ui-sref="index">Home</a>

@@ -1,0 +1,53 @@
+<div>
+	<div class="btn btn-default question" ng-click="selectContent(question.question)">
+		<content data="question.question"></content>
+		<!-- <textarea cols="100" maxlength="500" ng-model="question.question.text">{{question.question.text}}</textarea> -->
+	</div>
+
+	<div ng-switch="question.type">
+		<div ng-switch-when="DEFAULT">
+			<div class="radio" ng-repeat="option in question.options">
+				<label>
+					<input type="radio" name="option" value="{{option.id}}" ng-if="newQuestion" ng-change="selectOption(option.id)" ng-model="tmp">
+					<div class="btn btn-default quiz-content" ng-click="selectContent(option)" ng-class="{'option-selected': option.selected}">
+						<content data="option"></content>
+					</div>
+				</label>
+				<br/>
+			</div>
+		</div>
+
+		<div ng-switch-when="MULTI_CHOICE">
+			<p></p>
+			<div class="checkbox" ng-repeat="option in question.options">
+				<label>
+					<input type="checkbox" name="option" value="{{option.id}}" ng-if="newQuestion" ng-change="selectOption(option.id)" ng-model="tmp">
+					<div class="btn btn-default quiz-content" ng-click="selectContent(option)" ng-class="{'option-selected': option.selected}">
+						<content data="option"></content>
+					</div>
+				</label>
+				<br/>
+			</div>
+		</div>
+
+		<div ng-switch-when="MATCH">
+			<div ng-class="{'mask': selectedMatchOption}">
+				<div ng-repeat="i in [0, 1, 2, 3]">		
+					<div class="row">	
+						<div class="col col-xs-6 left left-option">
+							<div class="btn btn-default quiz-content" data-value="{{question.options[0][i].id}}" ng-click="selectContent(question.options[0][i], 'left')">
+								<content data="question.options[0][i]"></content>
+							</div>
+						</div>
+
+						<div class="col col-xs-6 right right-option">	
+							<div class="btn btn-default quiz-content" data-position="right" data-value="{{question.options[1][i].id}}" ng-click="selectContent(question.options[1][i], 'right')">
+								<content data="question.options[1][i]"></content>
+							</div>
+						</div>					
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>

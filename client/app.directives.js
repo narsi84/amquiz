@@ -5,7 +5,7 @@
 		.directive('question', ['$rootScope', '$meteor', '$modal', function($rootScope, $meteor, $modal){
 			return {
 				'restrict': 'E',
-				'templateUrl': 'client/app.directive.ng.html',
+				'templateUrl': 'client/app.question.ng.html',
 				'scope': {
 					question: '=',
 					category: '='					
@@ -21,7 +21,7 @@
 						$scope.content = content;
 						if ($scope.newQuestion) {
 							var modalinstance = $modal.open({
-								templateUrl: 'client/content.ng.html',
+								templateUrl: 'client/modal.ng.html',
 								controller: 'ModalController',
 								resolve: {
 									content: function(){
@@ -90,6 +90,56 @@
 								break;
 						}
 					}
+				}
+			}
+		}])
+
+		.directive('content', ['$rootScope', '$meteor', '$filter', function($rootScope, $meteor, $filter){
+			return {
+				'restrict': 'E',
+				'templateUrl': 'client/app.content.ng.html',
+				'scope': {
+					data: '='
+				},
+				link: function($scope, $elem, $attrs){
+					// $elem.on('click', function(e){
+     //                	e.preventDefault();
+     //            	});
+                	
+					$scope.picfile = '';
+
+				 	$scope.images = $meteor.collectionFS(Images, false, Images);
+					$scope.editable = angular.isDefined($attrs.editable) ? true : false;
+
+					if ($scope.data.mediaId != null && $scope.data.mediaId != '')
+						$scope.media = $filter('filter')($scope.images, {_id: $scope.data.mediaId})[0];
+
+					$scope.uploadImage = function(file){
+						$scope.removeImage();
+
+						$scope.images.save(file).then(function(result){
+							$scope.media = result[0]._id;
+							$scope.data.mediaId = $scope.media._id;
+						});
+					}
+
+					$scope.removeImage = function(){
+						if ($scope.data.mediaId != null && $scope.data.mediaId != '') {
+							$scope.media = Images.findOne({_id: $scope.data.mediaId});
+							$scope.images.remove($scope.media);
+							$scope.data.mediaId = null;
+							$scope.media = null;
+						}						
+					}
+
+					$scope.$watch('data.mediaId', function(newval, oldval){
+						if (newval == oldval)
+							return;
+						if (newval == null)
+							$scope.media = null
+						else
+							$scope.media = $filter('filter')($scope.images, {_id: $scope.data.mediaId})[0];
+					})
 				}
 			}
 		}])

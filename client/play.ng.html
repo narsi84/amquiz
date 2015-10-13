@@ -1,9 +1,10 @@
 <div>
-	<div ng-if="!available" class="btn btn-primary" ng-click="getQuestion()">Start</div>
+	<div ng-if="!started" class="btn btn-primary" ng-click="getQuestion()">Start</div>
 
-	<div ng-if="available">	
+	<div ng-if="started">	
 		<question question="question" category="selectedCategory"></question>
+		<div ng-show="!isAnswer" class="btn btn-success" ng-click="submit()">Submit</div>
+		<div ng-show="isAnswer" class="btn btn-success" ng-click="getQuestion()">Next</div>
+		<a class="btn btn-danger" ui-sref="index">Quit</a>
 	</div>	
 </div>
-<div class="btn btn-success" ng-click="submit()">Submit</div>
-<a class="btn btn-danger" ui-sref="index">Quit</a>

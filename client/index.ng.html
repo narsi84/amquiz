@@ -4,7 +4,7 @@
 	</div>
 
 	<div class="animate-show" ng-show='currentUser'>
-		<p>User logged in: {{currentUser.emails[0].address}}</p>	
+		<p>User logged in: {{currentUser.emails[0].address}}, Score: {{currentUser.score}}, Accuracy: {{currentUser.correct*100/currentUser.answered | number:0}}%</p>	
 
 		<div class="animate-show" ng-show="selectedCategory === ''">
 			<div ng-repeat='cat in CATEGORIES track by $index'>

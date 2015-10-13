@@ -20,7 +20,7 @@ function makeid(){
 Content = function (text){
 	this.id = makeid();
 	this.text = text ? text : '';
-	this.mediaURL = null;	
+	this.mediaId = null;	
 }
 
 Question = function (){

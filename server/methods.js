@@ -43,6 +43,13 @@ Meteor.methods({
 				})
 				break;
 		}
+		if (correctResult) {
+			var val = (DIFFICULTY.indexOf(question.difficulty) + 1)*10;
+			Meteor.users.update(Meteor.user(), {$inc: {score: val, answered: 1, correct: 1}});
+		}
+		else {
+			Meteor.users.update(Meteor.user(), {$inc: {answered: 1}});
+		}
 		return {isCorrect: correctResult, question: originalQuestion};
 	}
 })

@@ -1,1 +1,1 @@
-angular.module('amquiz',['angular-meteor', 'ui.router', 'ui.bootstrap']);
+angular.module('amquiz',['angular-meteor', 'ui.router', 'ui.bootstrap', 'ngFileUpload']);

@@ -28,3 +28,7 @@ angular
 angularui:angular-ui-bootstrap
 	
 urigo:angular-blaze-template
+cfs:standard-packages
+cfs:s3
+danialfarid:ng-file-upload
+cfs:gridfs
