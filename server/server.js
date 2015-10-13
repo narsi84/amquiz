@@ -16,8 +16,8 @@ Meteor.publish('Questions', function(){
 })
 
 var imagestore = new FS.Store.S3("imagestore", {
-  accessKeyId: "AKIAJJ6XB5WV32K76QVA", 
-  secretAccessKey: "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", 
+  accessKeyId: '',
+  secretAccessKey: '',
   bucket: "amquiz"
   // transformWrite: function(fileObj, readStream, writeStream) {
   //   gm(readStream, fileObj.name()).resize('250', '250').stream().pipe(writeStream)
